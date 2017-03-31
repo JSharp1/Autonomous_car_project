@@ -1,3 +1,4 @@
+#NB run sudo pigpiod to start pigpio thread before running this file
 import pigpio
 import socket
 import numpy as np
