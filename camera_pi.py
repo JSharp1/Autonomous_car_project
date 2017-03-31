@@ -1,3 +1,4 @@
+#NB flask requires sudo to run this file 
 import time
 import io
 import threading
