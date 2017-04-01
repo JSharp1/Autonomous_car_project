@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import math
 
-PATH = 'datasets/data2/0001.jpg'
+PATH = '/home/jsharp1/Desktop/code/uni/nncar/car_1/test/data2/0001.jpg'
 new_size_col,new_size_row = 64, 64
 
 def augment_brightness_camera_images(image):
@@ -16,7 +16,6 @@ def augment_brightness_camera_images(image):
 	image1 = np.array(image1, dtype = np.uint8)
 	image1 = cv2.cvtColor(image1,cv2.COLOR_HSV2RGB)
 	return image1
-
 
 def add_random_shadow(image):
     top_y = 320*np.random.uniform()
@@ -41,7 +40,6 @@ def add_random_shadow(image):
     image = cv2.cvtColor(image_hls,cv2.COLOR_HLS2RGB)
     return image
 
-
 def trans_image(image,steer,trans_range):
     # Translation
     tr_x = trans_range*np.random.uniform()-trans_range/2
@@ -53,7 +51,6 @@ def trans_image(image,steer,trans_range):
     image_tr = cv2.warpAffine(image,Trans_M,(cols,rows))
     return image_tr,steer_ang
 
-
 def preprocessImage(image):
     shape = image.shape
     # note: numpy arrays are (row, col)!
@@ -61,7 +58,6 @@ def preprocessImage(image):
     image = cv2.resize(image,(new_size_col,new_size_row), interpolation=cv2.INTER_AREA)    
     #image = image/255.-.5
     return image
-
 
 # def preprocess_image_file_train(line_data):
 #     image = cv2.imread(path_file)
@@ -76,22 +72,30 @@ def preprocessImage(image):
 #         y_steer = -y_steer
 #     return image,y_steer
 
+def flip_image(image, steer):
+    image = cv2.flip(image,1)
+    steer_ang = steer*-1
+    return image, steer_ang 
 
 def main():
-	while(1):
-		src = cv2.imread(PATH)
-		cv2.imshow("img", src)
-		aug1 = augment_brightness_camera_images(src)
-		cv2.imshow("brightness", aug1)
-		aug2 = add_random_shadow(src)
-		cv2.imshow("shadow", aug2)
-		# print src.shape
-		aug3, angle = trans_image(src,20,40)
-		cv2.putText(aug3, str(angle),(0,30), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,255,255),2,cv2.LINE_AA)
-		cv2.imshow("translate", aug3)
-		cv2.imshow("preprocess", preprocessImage(src))
-		cv2.waitKey(0) & 0xFF
-		cv2.destroyAllWindows()
+    src = cv2.imread(PATH)
+    cv2.imshow("img", src)
+    aug1 = augment_brightness_camera_images(src)
+    cv2.imshow("brightness", aug1)
+    aug2 = add_random_shadow(src)
+    cv2.imshow("shadow", aug2)
+    # print src.shape
+    aug3, angle = trans_image(src,20,40)
+    cv2.putText(aug3, str(angle),(0,30), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,255,255),2,cv2.LINE_AA)
+    cv2.imshow("translate", aug3)
+    cv2.imshow("preprocess", preprocessImage(src))
+
+    aug4, angle_flip = flip_image(src,20)
+    cv2.putText(aug4, str(angle_flip),(0,30), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,255,255),2,cv2.LINE_AA)
+    cv2.imshow("flip", aug4)
+
+    cv2.waitKey(0) & 0xFF
+    cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-	main()
+    main()
