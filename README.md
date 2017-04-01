@@ -22,7 +22,7 @@ dependencies
  pygame
  flask
  
-#Licence
+# Licence
 All work is released under the terms of the Creative Commons Attribution-Share Alike.
 
 You are free to reuse it and modify it as much as you want as long as
