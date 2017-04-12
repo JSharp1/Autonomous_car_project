@@ -60,9 +60,9 @@ def main():
 					elif event.key == K_ESCAPE:
 						quit = True
 					elif event.key == pygame.K_s:
-						sendData("123,123")
+						sendData("123,123")#'code' for save flag
 					elif event.key == pygame.K_c:
-						sendData("321,321")
+						sendData("321,321")#'code' for not save flag
 						break
 	finally:
 		print "closing..."
