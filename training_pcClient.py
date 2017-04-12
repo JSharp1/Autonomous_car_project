@@ -4,7 +4,7 @@ from pygame.locals import*
 
 print 'connecting to GPIO server'
 sock_pi = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock_pi.connect(('192.168.0.101',12346))
+sock_pi.connect(('192.168.0.101',44465))
 print 'connected to GPIO server'
 
 #gui- start pygame, create a display import font
@@ -37,18 +37,18 @@ def prepData(x, val):
 	data[x]['state'] = clamp(data[x]['state'],data[x]['min'],data[x]['max'])
 	return str(data[1]['state'])+","+str(data[2]['state'])
 
-
 def main():
 	quit = False
 	try:
 		while not quit:
 			for event in pygame.event.get():
 				if event.type == QUIT:
+					sendData("0,0")
 					quit = True
 					break
 				elif event.type == KEYUP:
 					pass
-				elif event.type == KEYDOWN:
+				elif event.type == KEYDOWN:	
 					if event.key == K_UP:
 						sendData(prepData(2,10))
 					elif event.key == pygame.K_DOWN:
@@ -59,6 +59,10 @@ def main():
 						sendData(prepData(1,50))
 					elif event.key == K_ESCAPE:
 						quit = True
+					elif event.key == pygame.K_s:
+						sendData("123,123")
+					elif event.key == pygame.K_c:
+						sendData("321,321")
 						break
 	finally:
 		print "closing..."
