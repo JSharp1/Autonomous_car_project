@@ -1,10 +1,11 @@
 import socket#tcp/ip coms
 import pygame#GUI and user input 
 from pygame.locals import*
+import time
 
 print 'connecting to GPIO server'
 sock_pi = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock_pi.connect(('192.168.0.101',44465))
+sock_pi.connect(('192.168.0.101',44470))
 print 'connected to GPIO server'
 
 #gui- start pygame, create a display import font
@@ -64,6 +65,7 @@ def main():
 					elif event.key == pygame.K_c:
 						sendData("321,321")#'code' for not save flag
 						break
+				time.sleep(.05)
 	finally:
 		print "closing..."
 		sendData("close")
