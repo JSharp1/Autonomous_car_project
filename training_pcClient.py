@@ -5,7 +5,7 @@ import time
 
 print 'connecting to GPIO server'
 sock_pi = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock_pi.connect(('192.168.0.101',44470))
+sock_pi.connect(('192.168.0.101',44474))
 print 'connected to GPIO server'
 
 #gui- start pygame, create a display import font
@@ -13,10 +13,10 @@ pygame.init()
 screen = pygame.display.set_mode((320, 240))
 pygame.display.set_caption("training")
 f1 = pygame.font.SysFont("comicsansms", 24)
-pygame.key.set_repeat(50, 100)
+pygame.key.set_repeat(100, 150)
 
 data = { # initital values
-   1 : {'name' : 'steeringAngle', 'state' : 1400, 'min' : 500, 'max' : 2400},
+   1 : {'name' : 'steeringAngle', 'state' : 1400, 'min' : 1050, 'max' : 1750},
    2 : {'name' : 'motorSpeed', 'state' : 0, 'min' : 0, 'max' : 255}
    }
 
