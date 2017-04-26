@@ -12,15 +12,15 @@ print 'starting GPIO server'
 # start a socket and listen for clients (0.0.0.0 
 # on all interfaces)
 server_socket = socket.socket()
-server_socket.bind(('0.0.0.0', 44470))
+server_socket.bind(('0.0.0.0', 44474))
 server_socket.listen(0)
 print "socket is listening for a client"
 conn, addr = server_socket.accept()
 print "connected"
 print 'Got connection from', addr
 
-SERVO_PIN = 27
 MOTOR_PIN = 17
+SERVO_PIN = 22
 #connect to pigpiod daemon
 pi = pigpio.pi()
 # setup pin as an output
@@ -68,7 +68,7 @@ def main():
 				d1, d2  = data.split(",", 1 )
 				data = "s"+d1+","+d2
 				if d1 == "123" and d2 == "123":
-					saveFlag = True
+					saveFlag = not saveFlag
 					print saveFlag
 				elif d2 == "321" and d2 == "321":
 					saveFlag = False
