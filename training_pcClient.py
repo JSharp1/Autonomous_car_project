@@ -40,6 +40,7 @@ def prepData(x, val):
 
 def main():
 	quit = False
+	motorToggle = False#toggle motor on/off
 	try:
 		while not quit:
 			for event in pygame.event.get():
@@ -58,6 +59,10 @@ def main():
 						sendData(prepData(1,50))
 					elif event.key == pygame.K_RIGHT:
 						sendData(prepData(1,-50))
+					elif event.key == K_RETURN:
+						sendData(prepData(2,255))
+					elif event.key == K_BACKSPACE:
+						sendData(prepData(2,-255))
 					elif event.key == K_ESCAPE:
 						quit = True
 					elif event.key == pygame.K_s:
@@ -76,4 +81,3 @@ def main():
 
 if __name__ == '__main__':
 	main()
-	
