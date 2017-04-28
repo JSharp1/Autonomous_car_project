@@ -55,9 +55,9 @@ def main():
 					elif event.key == pygame.K_DOWN:
 						sendData(prepData(2,-10))
 					elif event.key == pygame.K_LEFT:
-						sendData(prepData(1,-50))
-					elif event.key == pygame.K_RIGHT:
 						sendData(prepData(1,50))
+					elif event.key == pygame.K_RIGHT:
+						sendData(prepData(1,-50))
 					elif event.key == K_ESCAPE:
 						quit = True
 					elif event.key == pygame.K_s:
