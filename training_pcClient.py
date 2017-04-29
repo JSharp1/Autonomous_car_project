@@ -5,7 +5,7 @@ import time
 
 print 'connecting to GPIO server'
 sock_pi = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock_pi.connect(('192.168.0.101',44474))
+sock_pi.connect(('192.168.0.101',44476))
 print 'connected to GPIO server'
 
 #gui- start pygame, create a display import font
@@ -52,13 +52,13 @@ def main():
 					pass
 				elif event.type == KEYDOWN:	
 					if event.key == K_UP:
-						sendData(prepData(2,10))
+						sendData(prepData(2,5))
 					elif event.key == pygame.K_DOWN:
-						sendData(prepData(2,-10))
+						sendData(prepData(2,-5))
 					elif event.key == pygame.K_LEFT:
-						sendData(prepData(1,50))
+						sendData(prepData(1,40))
 					elif event.key == pygame.K_RIGHT:
-						sendData(prepData(1,-50))
+						sendData(prepData(1,-40))
 					elif event.key == K_RETURN:
 						sendData(prepData(2,255))
 					elif event.key == K_BACKSPACE:
