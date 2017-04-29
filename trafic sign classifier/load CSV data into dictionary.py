@@ -25,7 +25,9 @@ coords 4D array: containing orignal coords of object in image (x1,y1,x2,y2)
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-Flag = True
+
+Flag = False #if true store training data else test data
+
 #variables to increment through data
 numberOfClasses = 42#43 classes/folders to loop through
 names = ["Filename", "Width", "Height", "Roi.X1", "Roi.Y1", "Roi.X2", "Roi.Y2", "ClassId"]	
@@ -33,7 +35,6 @@ features = np.zeros((1,3072),dtype=np.int8)#32x32)
 labels = np.zeros((1, 3),dtype=np.int8)
 sizes = np.zeros((1,2),dtype=np.int8)
 coords = np.zeros((1,4),dtype=np.int8)
-#			data_dict = {"Filename":data['Filename'][j], "ClassId":data['ClassId'][j]}
 
 def preprocess(rgbImage):
 	"""Convert RGB img to YUV color space 
@@ -54,16 +55,16 @@ def preprocess(rgbImage):
 	return yuvImage
 
 def main():
-	folderPath = "GTSRB/Final_Training/Images/"
+	print Flag
 	if Flag == True:
-		for i in range(1):#loop through each folder
+		folderPath = "GTSRB/Final_Training/Images/"
+		for i in range(numberOfClasses):#loop through each folder
 			classCounter = "{0:05d}".format(i)#class increment var
 			csvCounter = "GT-" + classCounter#csv file name
 			csvPATH = str(folderPath + classCounter + "/" + csvCounter + ".csv")
-			print "class", i
-			print "***** saving training data from " + csvPATH
 			data = np.genfromtxt(csvPATH, dtype=None, delimiter=';', skip_header=0, names=True)
-			print "converting ", len(data), " samples"
+			print "class", i
+			print "***** saving training data from " + csvPATH + " converting ", len(data), " samples"
 			for j in range(len(data)):#loop over each row of data #len(data)
 				#j = 28
 				#save labels
@@ -109,16 +110,14 @@ def main():
 				# cv2.destroyAllWindows()
 				# print j
 
-	np.savez('trainingData_dict.npz', features=features, labels=labels, sizes= sizes, coords = coords)
+		# print i
+		npFileName = 'testData_dict.npz'
+
 	elif Flag == False:
-		print Flag
 		folderPath = "GTSRB/Final_Test/Images"
 		csvPATH = str(folderPath + "/GT-final_test.csv")
-		print "***** saving test data from " + csvPATH
 		data = np.genfromtxt(csvPATH, dtype=None, delimiter=';', skip_header=0, names=True)
-		print "converting ", len(data), " samples"
 		for j in range(len(data)):#loop over each row of data #len(data)
-
 			#save labels: class,index
 			s = data['Filename'][j]#string
 			#split file name into idx
@@ -157,6 +156,7 @@ def main():
 			global features
 			features = np.vstack((features, img_array))
 			img_mat = np.reshape(img_array,(32,32,3)).astype(np.uint8)
+
 			#cv2.imshow("rgb", src)
 			# cv2.imshow("img_mat",cv2.cvtColor(img_mat,cv2.COLOR_YUV2BGR))
 			# cv2.imshow("rgb resized", cv2.cvtColor(resized,cv2.COLOR_YUV2BGR))
@@ -181,7 +181,7 @@ def main():
 			# plt.ion()
 			# # plt.pause(.001)
 			# plt.close(j)
-		np.savez('testData_dict.npz', features=features, labels=labels, sizes= sizes, coords = coords)
+		npFileName = 'testData_dict.npz'
 
 		# print npzfile["features"][3].shape
 		# temp = np.array(npzfile["features"][3])
@@ -192,8 +192,6 @@ def main():
 		# cv2.destroyAllWindows()
 
 		# print npzfile.files
-		# print npzfile["labels"][2][0],npzfile["labels"][2][1],npzfile["labels"][2][2]
-		# print npzfile["labels"][2]
 		# print labels.size
 		# print labels[1].dtype
 		# print data['Filename'][0]
@@ -204,13 +202,17 @@ def main():
 		# print data_dict['Filename'][210]
 		# print data[1].dtype
 
-	
+	np.savez( npFileName, features=features, labels=labels, sizes= sizes, coords = coords)
 	print '-' * 10
 	print "data saved"
-	npzfile = np.load('data_dict.npz', 'r')
+	npzfile = np.load( npFileName, 'r')
 	print "loading data"
 	print "keys: " + str(npzfile.files)
-	print "length of data " + str(len(npzfile["labels"])-1)#minus one as first row are zeros
+	print "length of data " + str(len(npzfile["labels"])-1)#minus one as first row
+
+	print "n.b. first row are zeros"
+	print npzfile["labels"][1][0],npzfile["labels"][1][1],npzfile["labels"][1][2]
+	print npzfile["labels"][1]
 	print '-' * 10
 
 
