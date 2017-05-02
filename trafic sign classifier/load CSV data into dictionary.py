@@ -289,7 +289,7 @@ def main():
 			x = data['ClassId'][j]
 			global labels
 			labels[j] = ([int(x),int(0),s1])#add a zero to keep the format / dimensions the same
-			print s,x,s1,labels[j]
+			# print s,x,s1,labels[j]
 
 			#save img sizes
 			h = data['Height'][j]
